@@ -18,14 +18,18 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
+          cache-dependency-path: 'templates/project-templates/nextjs-starter/package-lock.json'
 
       - name: Install dependencies
+        working-directory: templates/project-templates/nextjs-starter
         run: npm ci
 
       - name: Run tests
+        working-directory: templates/project-templates/nextjs-starter
         run: npm run test
 
       - name: Build project
+        working-directory: templates/project-templates/nextjs-starter
         run: npm run build
         env:
           NEXT_PUBLIC_SITE_URL: ${{ secrets.STAGING_SITE_URL }}

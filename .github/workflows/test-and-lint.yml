@@ -18,14 +18,18 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
+          cache-dependency-path: 'templates/project-templates/nextjs-starter/package-lock.json'
 
       - name: Install dependencies
+        working-directory: templates/project-templates/nextjs-starter
         run: npm ci
 
       - name: Run ESLint
+        working-directory: templates/project-templates/nextjs-starter
         run: npm run lint
 
       - name: Check TypeScript
+        working-directory: templates/project-templates/nextjs-starter
         run: npm run type-check
 
   test:
@@ -39,17 +43,20 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
+          cache-dependency-path: 'templates/project-templates/nextjs-starter/package-lock.json'
 
       - name: Install dependencies
+        working-directory: templates/project-templates/nextjs-starter
         run: npm ci
 
       - name: Run tests
+        working-directory: templates/project-templates/nextjs-starter
         run: npm run test:coverage
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          files: ./coverage/coverage-final.json
+          files: templates/project-templates/nextjs-starter/coverage/coverage-final.json
           fail_ci_if_error: false
 
   build:
@@ -63,11 +70,14 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
+          cache-dependency-path: 'templates/project-templates/nextjs-starter/package-lock.json'
 
       - name: Install dependencies
+        working-directory: templates/project-templates/nextjs-starter
         run: npm ci
 
       - name: Build project
+        working-directory: templates/project-templates/nextjs-starter
         run: npm run build
         env:
           NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
@@ -76,4 +86,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build
-          path: .next
+          path: templates/project-templates/nextjs-starter/.next
