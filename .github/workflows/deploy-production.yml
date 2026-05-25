@@ -16,7 +16,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
           cache: 'npm'
           cache-dependency-path: 'templates/project-templates/nextjs-starter/package-lock.json'
 
@@ -44,31 +44,16 @@ jobs:
           NEXT_PUBLIC_SITE_URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
 
-      - name: Deploy to Vercel (Production)
+      - name: Deployment Info
         run: |
-          npm install -g vercel
-          vercel deploy --prod
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
-      - name: Create release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: release-${{ github.sha }}
-          release_name: Release ${{ github.sha }}
-          body: |
-            Production deployment successful
-            Commit: ${{ github.sha }}
-            Author: ${{ github.actor }}
-          draft: false
-          prerelease: false
+          echo "✅ Build successful!"
+          echo "Vercel will auto-deploy from GitHub"
+          echo "Production URL: ${{ secrets.NEXT_PUBLIC_SITE_URL }}"
 
       - name: Notify success
+        if: success()
         uses: slackapi/slack-github-action@v1
+        continue-on-error: true
         with:
           payload: |
             {
@@ -89,6 +74,7 @@ jobs:
       - name: Notify on failure
         if: failure()
         uses: slackapi/slack-github-action@v1
+        continue-on-error: true
         with:
           payload: |
             {
