@@ -14,6 +14,10 @@ export default function Hero() {
           performant web applications.
         </p>
 
+        <div className="inline-block px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium mb-8">
+          ✓ CI/CD Pipeline Active
+        </div>
+
         <div className="flex flex-wrap gap-4 justify-center">
           <Button variant="primary" size="lg">
             Get Started
