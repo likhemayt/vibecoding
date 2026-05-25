@@ -45,13 +45,14 @@ jobs:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
 
       - name: Deploy to Vercel (Production)
+        working-directory: templates/project-templates/nextjs-starter
         run: |
           npm install -g vercel
           vercel deploy --prod
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PRODUCTION_PROJECT_ID }}
 
       - name: Create release
         uses: actions/create-release@v1
